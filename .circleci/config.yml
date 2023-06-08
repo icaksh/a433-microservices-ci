@@ -17,11 +17,8 @@ jobs:
           name: Installing Hadolint
           command: docker pull hadolint/hadolint
       - run:
-          name: Moving to Karsajobs Backend Directory
-          command: cd karsajobs
-      - run:
           name: Linting BackEnd Dockerfile
-          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+          command: docker run --rm --interactive hadolint/hadolint < ./karsajobs/Dockerfile
   # proses jobs untuk test-app backend
   test-app:
     docker:
@@ -30,11 +27,8 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Moving to Karsajobs Backend Directory
-          command: cd karsajobs
-      - run:
           name: Testing Go with Go Test
-          command: go test -v -short --count=1 $(go list ./...)
+          command: cd karsajobs && go test -v -short --count=1 $(go list ./...)
   # build docker file dan push ke ghcr
   build-app-karsajobs:
     docker:
@@ -44,11 +38,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Moving to Karsajobs Backend Directory
-          command: cd karsajobs
-      - run:
           name: Build Docker Image
-          command: "docker build -t ghcr.io/icaksh/karsajobs:latest ."
+          command: "docker build -t ghcr.io/icaksh/karsajobs:latest ./karsajobs/"
       - run:
           name: Login to ghcr.io
           command: echo $GITHUB_ACCESS_TOKEN | docker login ghcr.io -u icaksh --password-stdin
@@ -69,7 +60,7 @@ jobs:
           command: "docker pull hadolint/hadolint"
       - run:
           name: "Linting FrontEnd Dockerfile"
-          command: "docker run --rm --interactive hadolint/hadolint < Dockerfile"
+          command: "docker run --rm --interactive hadolint/hadolint < ./karsajobs-ui/Dockerfile"
 
   # build docker file dan push ke ghcr
   build-app-karsajobs-ui:
@@ -80,11 +71,8 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Moving to Karsajobs Front End Directory
-          command: cd karsajobs-ui
-      - run:
           name: Build Docker Image
-          command: "docker build -t ghcr.io/icaksh/karsajobs-ui:latest ."
+          command: "docker build -t ghcr.io/icaksh/karsajobs-ui:latest ./karsajobs-ui/"
       - run:
           name: Login to ghcr.io
           command: echo $GITHUB_ACCESS_TOKEN | docker login ghcr.io -u icaksh --password-stdin
