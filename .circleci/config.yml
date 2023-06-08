@@ -83,36 +83,16 @@ jobs:
 workflows:
   karsajobs-backend-workflow:
     jobs:
-      - lint-backend-dockerfile:
-        filters:
-            branches:
-              only:
-                - karsajobs
+      - lint-backend-dockerfile
       - test-app:
           requires: 
             - lint-backend-dockerfile
-          filters:
-            branches:
-              only:
-                - karsajobs
       - build-app-karsajobs:
           requires: 
             - test-app
-          filters:
-            branches:
-              only:
-                - karsajobs
   karsajobs-frontend-workflow:
     jobs:
-      - lint-frontend-dockerfile:
-          filters:
-            branches:
-              only:
-                - karsajobs-ui
+      - lint-frontend-dockerfile
       - build-app-karsajobs-ui:
           requires: 
             - lint-frontend-dockerfile
-          filters:
-            branches:
-              only:
-                - karsajobs-ui
