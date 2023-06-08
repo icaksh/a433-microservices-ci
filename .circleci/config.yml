@@ -21,7 +21,7 @@ jobs:
           command: cd karsajobs
       - run:
           name: Linting BackEnd Dockerfile
-          command: docker run --rm --interactive hadolint/hadolint < ./Dockerfile
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
   # proses jobs untuk test-app backend
   test-app:
     docker:
@@ -69,7 +69,7 @@ jobs:
           command: "docker pull hadolint/hadolint"
       - run:
           name: "Linting FrontEnd Dockerfile"
-          command: "docker run --rm --interactive hadolint/hadolint < ./karsajobs/Dockerfile"
+          command: "docker run --rm --interactive hadolint/hadolint < Dockerfile"
 
   # build docker file dan push ke ghcr
   build-app-karsajobs-ui:
