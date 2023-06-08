@@ -21,6 +21,10 @@ echo -e "\nSebelum anda mengunggah file ke GitHub Container Registry"
 echo -e "\nPastikan anda telah melakukan forking repository"
 read -p "Masukkan username GitHub: " github_username
 
+# ubah nama image sesuai remote hub
+echo -e "\n==== UBAH NAMA IMAGE ===="
+docker tag icaksh/karsajobs-ui:latest ghcr.io/$github_username/karsajobs-ui:latest
+
 # delay 5 detik
 sleep 5
 
