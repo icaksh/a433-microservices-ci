@@ -16,9 +16,9 @@ jobs:
       - run:
           name: Installing Hadolint
           command: docker pull hadolint/hadolint
-      # - run:
-      #     name: Moving to Karsajobs Backend Directory
-      #     command: cd karsajobs
+      - run:
+          name: Moving to Karsajobs Backend Directory
+          command: cd karsajobs
       - run:
           name: Linting BackEnd Dockerfile
           command: docker run --rm --interactive hadolint/hadolint < ./Dockerfile
