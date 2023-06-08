@@ -22,7 +22,7 @@ jobs:
   # proses jobs untuk test-app backend
   test-app:
     docker:
-      - image: cimg/go:1.19.3
+      - image: cimg/go:1.15
     # steps dari setiap jobs, tidak dikomen karena sudah ada di name
     steps:
       - checkout
