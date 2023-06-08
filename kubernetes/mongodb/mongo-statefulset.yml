@@ -1,0 +1,73 @@
+# gunakan api versi 1
+apiVersion: apps/v1
+
+# tentukan jenis object = statefulset
+kind: StatefulSet
+
+# tambahkan metadata
+metadata:
+  # nama
+  name: karsajobs-database
+  #labels
+  labels:
+    app: karsajobs
+    tier: backend
+
+# tentukan spesifikasi
+spec:
+  # tambahkan selector
+  selector:
+    # jika match dengan label app mongo
+    matchLabels:
+      app: karsajobs
+      tier: backend
+
+  # nama service
+  serviceName: karsajobs-database
+  # buat replika 1 replika
+  replicas: 1
+  # harus ready dalam waktu 10 detik
+  minReadySeconds: 10
+
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        tier: backend
+
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: mongo
+        image: mongo:latest
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME_FILE
+          value: /etc/mongo-credentials/MONGO_ROOT_USERNAME
+        - name: MONGO_INITDB_ROOT_PASSWORD_FILE
+          value: /etc/mongo-credentials/MONGO_ROOT_PASSWORD
+        ports:
+        - containerPort: 27017
+          name: mongo
+        volumeMounts:
+        - name: mongo-persistent-storage
+          mountPath: /data/db
+        - name: mongo-config
+          mountPath: /config
+          readOnly: true
+        - name: mongo-secret
+          mountPath: /etc/mongo-credentials
+          readOnly: true
+
+      volumes:
+      - name: mongo-persistent-storage
+        persistentVolumeClaim:
+          claimName: mongo-pv-claim
+      - name: mongo-config
+        configMap:
+          name: mongo-config
+          items:
+            - key: mongo.conf
+              path: mongo.conf
+      - name: mongo-secret
+        secret:
+          secretName: mongo-secret

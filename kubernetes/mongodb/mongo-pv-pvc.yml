@@ -1,0 +1,55 @@
+# gunakan api versi 1
+apiVersion: v1
+
+# tentukan jenis object = PersistentVolume
+kind: PersistentVolume
+
+# tambahkan metadata
+metadata:
+  # nama
+  name: mongo-pv
+  # label
+  labels:
+    type: local
+
+# tentukan spesifikasi
+spec:
+  # class
+  storageClassName: manual
+  # tentukan kapasitas dari volume
+  capacity:
+    storage: 1Gi
+  # tentukan mode akses
+  accessModes:
+    - ReadWriteOnce
+  # tentukan host path
+  hostPath:
+    path: "/mnt/data/mongo"
+
+---
+# deklarasi konfigurasi untuk PVC
+
+# gunakan api versi 1
+apiVersion: v1
+
+# tentukan jenis object = PersistentVolumeClaim
+kind: PersistentVolumeClaim
+
+# tambahkan metadata
+metadata:
+  # nama
+  name: mongo-pv-claim
+  # label
+  labels:
+    app: mongo
+
+# tentukan spesifikasi
+spec:
+  storageClassName: manual
+  # mode akses
+  accessModes:
+    - ReadWriteOnce
+  # resources
+  resources:
+    requests:
+      storage: 1Gi

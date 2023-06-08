@@ -1,0 +1,27 @@
+# gunakan API versi 1
+apiVersion: v1
+
+# tentukan jenis object = Service
+kind: Service
+
+# metadata
+metadata:
+  # nama = backend
+  name: karsajobs-ui
+  #labels
+  labels:
+    app: karsajobs
+    tier: frontend
+
+# tentukan spesifikasi
+spec:
+  # tentukan port dari service
+  ports:
+  - name: default
+    port: 8000
+    protocol: TCP
+  # tentukan selector
+  selector:
+    app: karsajobs
+    tier: frontend
+  type: NodePort

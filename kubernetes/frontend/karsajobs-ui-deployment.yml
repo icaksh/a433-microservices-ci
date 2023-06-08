@@ -1,0 +1,37 @@
+# gunakan API versi 1
+apiVersion: apps/v1
+
+# tentukan jenis object = deployment
+kind: Deployment
+
+# metadata
+metadata:
+  # nama = backend
+  name: karsajobs-ui
+  # berikan labels
+  labels:
+    app: karsajobs
+    tier: frontend
+
+# tentukan spesifikasi
+spec:
+  # buat replica 1
+  replicas: 1
+  # select matchlabels ke karsajobs
+  selector:
+    matchLabels:
+      app: karsajobs
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        app: karsajobs
+        tier: frontend
+    spec:
+      containers:
+        - name: karsajobs-ui
+          # ambil image dari ghcrku
+          image: ghcr.io/icaksh/karsajobs-ui:latest
+          # deklarasikan port yang akan digunakan
+          ports:
+            - containerPort: 8000

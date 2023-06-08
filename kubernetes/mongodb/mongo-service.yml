@@ -1,0 +1,25 @@
+# gunakan api versi 1
+apiVersion: v1
+
+# tentukan jenis object = Service
+kind: Service
+
+# tambahkan metadata
+metadata:
+  # nama
+  name: karsajobs-database
+  # labels
+  labels:
+    app: karsajobs
+    tier: backend
+
+# tentukan spesifikasi
+spec:
+  # ports
+  ports:
+    # port = 27017 (port mongodb default 27017)
+    - port: 27017
+  selector:
+    app: karsajobs
+    tier: backend
+  clusterIP: None
